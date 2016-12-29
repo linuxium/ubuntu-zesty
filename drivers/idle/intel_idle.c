@@ -991,7 +991,7 @@ static const struct idle_cpu idle_cpu_snb = {
 static const struct idle_cpu idle_cpu_byt = {
 	.state_table = byt_cstates,
 	.disable_promotion_to_c1e = true,
-	.byt_auto_demotion_disable_flag = true,
+	.byt_auto_demotion_disable_flag = false,
 };
 
 static const struct idle_cpu idle_cpu_cht = {
@@ -1360,6 +1360,8 @@ static void __init intel_idle_cpuidle_driver_init(void)
 
 		drv->state_count += 1;
 	}
+
+	printk(PREFIX "BYT C6 auto-demotion-disable: %d\n", icpu->byt_auto_demotion_disable_flag);
 
 	if (icpu->byt_auto_demotion_disable_flag) {
 		wrmsrl(MSR_CC6_DEMOTION_POLICY_CONFIG, 0);
